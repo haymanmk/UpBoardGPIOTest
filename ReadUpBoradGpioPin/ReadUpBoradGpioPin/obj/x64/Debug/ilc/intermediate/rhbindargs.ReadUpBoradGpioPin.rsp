@@ -1,0 +1,15 @@
+/osver:6.2
+/appcontainer
+/runtime:mrt100_app
+/eh:clr
+/pdb
+"/nativeLink:C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.net.native.compiler\1.7.6\tools\x64\ilc\lib\Native\vmath.lib"
+/customImports
+"C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\MDIL\ReadUpBoradGpioPin.mdilexe"
+"/i:C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\MDIL"
+"/out:C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\Native\ReadUpBoradGpioPin.exe"
+"/pdbAltPath:C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc"
+"/res:C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\Native.res"
+"/i:C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.net.native.sharedlibrary-x64\1.7.3\tools\SharedLibrary\chk\MDIL"
+/shimexe
+"/classlib:SharedLibrary"

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp build" xmlns:build="http://schemas.microsoft.com/developer/appx/2015/build">
+  <!--
+    這個套件資訊清單檔案由建置流程產生。
+
+    對這個檔案所做的變更將在重新產生檔案時遺失。若要更正這個檔案中的錯誤，請編輯來源 .appxmanifest 檔案。
+
+    如需有關套件資訊清單檔案的詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=241727
+  -->
+  <Identity Name="5c71833d-6731-45bf-be0c-0358c853e110" Publisher="CN=chanhayman" Version="1.0.0.0" ProcessorArchitecture="x64" />
+  <mp:PhoneIdentity PhoneProductId="5c71833d-6731-45bf-be0c-0358c853e110" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>ReadUpBoradGpioPin</DisplayName>
+    <PublisherDisplayName>chanhayman</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.15063.0" MaxVersionTested="10.0.17763.0" />
+    <PackageDependency Name="Microsoft.NET.Native.Framework.Debug.1.7" MinVersion="1.7.27413.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+    <PackageDependency Name="Microsoft.NET.Native.Runtime.1.7" MinVersion="1.7.25531.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+    <PackageDependency Name="Microsoft.VCLibs.140.00" MinVersion="14.0.22929.0" Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="ZH-TW" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="ReadUpBoradGpioPin.exe" EntryPoint="ReadUpBoradGpioPin.App">
+      <uap:VisualElements DisplayName="ReadUpBoradGpioPin" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="ReadUpBoradGpioPin" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+      </uap:VisualElements>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <DeviceCapability Name="lowLevel" />
+  </Capabilities>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>UpBridge.dll</Path>
+        <ActivatableClass ActivatableClassId="UpBridge.Up" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>ReadUpBoradGpioPin.dll</Path>
+        <ActivatableClass ActivatableClassId="UpWinApis.UpI2cProvider" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="UpWinApis.UpBusProvider" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="UpWinApis.UpGpioProvider" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="UpWinApis.UpSpiProvider" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="UpWinApis.UpPwmProvider" ThreadingModel="both" />
+        <ActivatableClass ActivatableClassId="UpWinApis.UpAdcProvider" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>UpEApis.dll</Path>
+        <ActivatableClass ActivatableClassId="UpEApis.EApis" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>
+  <build:Metadata>
+    <build:Item Name="TargetFrameworkMoniker" Value=".NETCore,Version=v5.0" />
+    <build:Item Name="VisualStudio" Version="15.0" />
+    <build:Item Name="VisualStudioEdition" Value="Microsoft Visual Studio Community 2017" />
+    <build:Item Name="OperatingSystem" Version="10.0.18362.1 (WinBuild.160101.0800)" />
+    <build:Item Name="Microsoft.Build.AppxPackage.dll" Version="15.0.28307.1089" />
+    <build:Item Name="ProjectGUID" Value="{09C66DEE-377F-4D01-8E22-3B950166EE41}" />
+    <build:Item Name="ilc.exe" Version="1.7.27420.00 built by: PROJECTNGDR2" />
+    <build:Item Name="OptimizingToolset" Value="ilc.exe" />
+    <build:Item Name="UseDotNetNativeSharedAssemblyFrameworkPackage" Value="True" />
+    <build:Item Name="UniversalGenericsOptOut" Value="false" />
+    <build:Item Name="ShortcutGenericAnalysis" Value="false" />
+    <build:Item Name="Microsoft.Windows.UI.Xaml.Build.Tasks.dll" Version="10.0.17763.132" />
+    <build:Item Name="WindowsDesktop" Version="10.0.17763.0" />
+    <build:Item Name="WindowsIoT" Version="10.0.17134.0" />
+    <build:Item Name="MakePri.exe" Version="10.0.17763.132 (WinBuild.160101.0800)" />
+  </build:Metadata>
+</Package>

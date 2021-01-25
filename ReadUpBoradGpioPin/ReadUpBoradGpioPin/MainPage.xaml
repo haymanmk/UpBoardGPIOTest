@@ -1,0 +1,24 @@
+﻿<Page
+    x:Class="ReadUpBoradGpioPin.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ReadUpBoradGpioPin"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <TextBlock x:Name="UpMfg" HorizontalAlignment="Left" Margin="89,89,0,0" Text="Manufacture" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"/>
+        <TextBlock x:Name="UpBoardName" HorizontalAlignment="Left" Margin="89,142,0,0" Text="Board Name" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"/>
+        <TextBlock x:Name="UpBiosVer" HorizontalAlignment="Left" Margin="89,195,0,0" Text="BIOS Version" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="89,309,0,0" Text="GPIO PIN" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="26" Height="52"/>
+        <ComboBox x:Name="pList" HorizontalAlignment="Left" Margin="228,301,0,0" VerticalAlignment="Top" FontSize="36" Width="118" SelectionChanged="PList_SelectionChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="89,431,0,0" Text="Direction" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="26" Height="35"/>
+        <ComboBox x:Name="pDir" HorizontalAlignment="Left" Margin="228,418,0,0" VerticalAlignment="Top" FontSize="36" Width="118" SelectionChanged="PDir_SelectionChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="89,558,0,0" Text="Value" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="26"/>
+        <ComboBox x:Name="pVal" HorizontalAlignment="Left" Margin="228,545,0,0" VerticalAlignment="Top" FontSize="36" Width="118" SelectionChanged="PVal_SelectionChanged"/>
+        <TextBox x:Name="TBIOStat" HorizontalAlignment="Left" Margin="497,417,0,0" Text="PinValue" VerticalAlignment="Top" FontSize="36"/>
+        <Button Content="Read Status" HorizontalAlignment="Left" Margin="676,421,0,0" VerticalAlignment="Top" FontSize="36" Click="Button_Click"/>
+    </Grid>
+</Page>
