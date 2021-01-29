@@ -1,5 +1,5 @@
-/In:"C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in"
-/Lib:"C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in"
+/In:"D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in"
+/Lib:"D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in"
 /Lib:"C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.net.native.compiler\1.7.6\tools\x64\ilc\lib\Private"
 /Lib:"C:\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.ApplicationModel.Activation.ActivatedEventsContract\1.0.0.0"
 /Lib:"C:\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.ApplicationModel.Activation.ActivationCameraSettingsContract\1.0.0.0"
@@ -51,7 +51,7 @@
 /Lib:"C:\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.UI.Shell.SecurityAppManagerContract\1.0.0.0"
 /Lib:"C:\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.UI.Xaml.Hosting.HostingContract\3.0.0.0"
 /Lib:"C:\Program Files (x86)\Windows Kits\10\References\10.0.17763.0\Windows.Web.Http.Diagnostics.HttpDiagnosticsContract\2.0.0.0"
-/WinMD:"C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in\WinMetadata\Windows.winmd"
-/VSTelemetrySessionSettings:"{"IsOptedIn":true,"HostName":"Dev14","AppInsightsInstrumentationKey":"f144292e-e3b2-4011-ac90-20e5c03fbce5","AsimovInstrumentationKey":"AIF-312cbd79-9dbb-4c48-a7da-3cc2a931cb70","AppId":1001,"UserId":"1191f3e8-ca2a-43cb-a216-ad0b8d52aade","Id":"808adb3b-7121-4582-ae33-c4fcc57be426","ProcessStartTime":637471378623402264}"
+/WinMD:"D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in\WinMetadata\Windows.winmd"
+/VSTelemetrySessionSettings:"{"IsOptedIn":true,"HostName":"Dev14","AppInsightsInstrumentationKey":"f144292e-e3b2-4011-ac90-20e5c03fbce5","AsimovInstrumentationKey":"AIF-312cbd79-9dbb-4c48-a7da-3cc2a931cb70","AppId":1001,"UserId":"1191f3e8-ca2a-43cb-a216-ad0b8d52aade","Id":"9935bbc9-997a-4031-a393-1ba239b37836","ProcessStartTime":637473516899298772}"
 /RdXmlPath:"C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.net.native.compiler\1.7.6\tools\LibraryXML"
 /RunOnlyPreDR

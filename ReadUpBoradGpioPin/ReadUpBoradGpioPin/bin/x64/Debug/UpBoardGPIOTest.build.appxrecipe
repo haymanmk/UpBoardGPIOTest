@@ -10,82 +10,82 @@
     <PackageArchitecture>x64</PackageArchitecture>
     <PackageIdentityName>5c71833d-6731-45bf-be0c-0358c853e110</PackageIdentityName>
     <PackageIdentityPublisher>CN=chanhayman</PackageIdentityPublisher>
-    <IntermediateOutputPath>C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType></RemoteDeploymentType>
     <PackageRegistrationPath></PackageRegistrationPath>
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
     <DeployOptionalPackages>false</DeployOptionalPackages>
     <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
-    <LayoutDir>C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\AppX</LayoutDir>
+    <LayoutDir>D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\AppX</LayoutDir>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\AppxManifest.xml">
+    <AppXManifest Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\App.xbf">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\App.xbf">
       <PackagePath>App.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\clrcompression.dll">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\clrcompression.dll">
       <PackagePath>clrcompression.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\MainPage.xbf">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\ReadUpBoradGpioPin.dll">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\ReadUpBoradGpioPin.dll">
       <PackagePath>ReadUpBoradGpioPin.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\ReadUpBoradGpioPin.exe">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\ReadUpBoradGpioPin.exe">
       <PackagePath>ReadUpBoradGpioPin.exe</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\ReadUpBoradGpioPin.pdb">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\ReadUpBoradGpioPin.pdb">
       <PackagePath>ReadUpBoradGpioPin.pdb</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\resources.pri">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\resources.pri">
       <PackagePath>resources.pri</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpBridge.dll">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpBridge.dll">
       <PackagePath>UpBridge.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpBridge.winmd">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpBridge.winmd">
       <PackagePath>UpBridge.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpEApis.dll">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpEApis.dll">
       <PackagePath>UpEApis.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpEApis.winmd">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpEApis.winmd">
       <PackagePath>UpEApis.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpWinApis.winmd">
+    <AppxPackagedFile Include="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\bin\x64\Debug\ilc\UpWinApis.winmd">
       <PackagePath>UpWinApis.winmd</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>

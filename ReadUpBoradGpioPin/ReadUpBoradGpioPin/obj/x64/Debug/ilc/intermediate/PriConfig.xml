@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources targetOsVersion="10.0.0" majorVersion="1" targetPlatform="WinCore">
-  <index root="\" startIndexAt="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\filelist.resfiles">
+  <index root="\" startIndexAt="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\filelist.resfiles">
     <default>
       <qualifier name="Language" value="en" />
       <qualifier name="Contrast" value="standard" />
@@ -25,7 +25,7 @@
   <!--        <indexer-config type="resfiles" qualifierDelimiter="."/>-->
   <!--        <indexer-config type="priinfo" emitStrings="true" emitPaths="true" emitEmbeddedData="true"/>-->
   <!--</index>-->
-  <index root="\" startIndexAt="C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\ResWfilelist.resfiles">
+  <index root="\" startIndexAt="D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\ResWfilelist.resfiles">
     <default>
       <qualifier name="Language" value="en-US" />
       <qualifier name="Contrast" value="standard" />

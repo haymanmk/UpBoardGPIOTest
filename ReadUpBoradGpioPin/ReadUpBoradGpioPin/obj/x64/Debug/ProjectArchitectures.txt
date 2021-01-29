@@ -1,1 +1,1 @@
-C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\UpBoardGPIOTest.csproj;x64
+D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\UpBoardGPIOTest.csproj;x64

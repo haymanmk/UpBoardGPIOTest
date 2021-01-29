@@ -1,10 +1,10 @@
 FullName=Microsoft.Build.ILTasks.ILTransformInternalTask
-InputAssembly=C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in\System.Runtime.WindowsRuntime.dll
-OutputAssembly=C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\TransformedSRWR\System.Runtime.WindowsRuntime.dll
+InputAssembly=D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in\System.Runtime.WindowsRuntime.dll
+OutputAssembly=D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\intermediate\TransformedSRWR\System.Runtime.WindowsRuntime.dll
 UseILOutputPrefix=False
 LibPathsCount=2
 LibPath=C:\Program Files (x86)\Microsoft SDKs\UWPNuGetPackages\microsoft.net.native.compiler\1.7.6\tools\x64\ilc\lib\Private\
-LibPath=C:\Users\chanhayman\source\repos\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in\
+LibPath=D:\Documents\_Hayman files\1_Project\UPSquaredBoard\TestPrograms\UpBoardGPIOTest\ReadUpBoradGpioPin\ReadUpBoradGpioPin\obj\x64\Debug\ilc\in\
 CoreAssemblyName=System.Private.CoreLib
 SkipWritingTransformedAssembly=False
 DontSaveUnlessChangesMade=False

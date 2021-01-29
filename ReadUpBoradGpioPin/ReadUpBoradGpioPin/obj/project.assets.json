@@ -27976,11 +27976,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\chanhayman\\source\\repos\\ReadUpBoradGpioPin\\ReadUpBoradGpioPin\\UpBoardGPIOTest.csproj",
+      "projectUniqueName": "D:\\Documents\\_Hayman files\\1_Project\\UPSquaredBoard\\TestPrograms\\UpBoardGPIOTest\\ReadUpBoradGpioPin\\ReadUpBoradGpioPin\\UpBoardGPIOTest.csproj",
       "projectName": "UpBoardGPIOTest",
-      "projectPath": "C:\\Users\\chanhayman\\source\\repos\\ReadUpBoradGpioPin\\ReadUpBoradGpioPin\\UpBoardGPIOTest.csproj",
+      "projectPath": "D:\\Documents\\_Hayman files\\1_Project\\UPSquaredBoard\\TestPrograms\\UpBoardGPIOTest\\ReadUpBoradGpioPin\\ReadUpBoradGpioPin\\UpBoardGPIOTest.csproj",
       "packagesPath": "C:\\Users\\chanhayman\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\chanhayman\\source\\repos\\ReadUpBoradGpioPin\\ReadUpBoradGpioPin\\obj\\",
+      "outputPath": "D:\\Documents\\_Hayman files\\1_Project\\UPSquaredBoard\\TestPrograms\\UpBoardGPIOTest\\ReadUpBoradGpioPin\\ReadUpBoradGpioPin\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
