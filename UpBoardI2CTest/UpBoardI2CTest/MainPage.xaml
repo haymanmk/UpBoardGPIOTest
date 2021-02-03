@@ -10,18 +10,18 @@
 
     <Grid>
         <Button x:Name="pbDetectAddress" Content="Detect Address" HorizontalAlignment="Left" Margin="436,158,0,0" VerticalAlignment="Top" FontSize="36" Click="PbDetectAddress_Click"/>
-        <ComboBox x:Name="cbSADList" HorizontalAlignment="Left" Margin="84,162,0,0" VerticalAlignment="Top" FontSize="32" Width="305" PlaceholderText="&lt;Slave Address&gt;"/>
+        <ComboBox x:Name="cbSADList" HorizontalAlignment="Left" Margin="84,162,0,0" VerticalAlignment="Top" FontSize="32" Width="305" PlaceholderText="&lt;Slave Address&gt;" ItemsSource="{x:Bind listSAD, Mode=OneWay}"/>
         <TextBox x:Name="tbRegRW" HorizontalAlignment="Left" Margin="84,264,0,0" Text="" VerticalAlignment="Top" FontSize="32" Width="305" PlaceholderText="&lt;Register Address&gt;"/>
-        <Button Content="Read Single Data" HorizontalAlignment="Left" Margin="436,264,0,0" VerticalAlignment="Top" Height="61" Width="261" FontSize="32" FontFamily="Segoe UI" Click="Button_Click"/>
-        <!--<TextBox x:Name="tbConsole" HorizontalAlignment="Left" Height="923" Margin="839,34,0,0" Text="{x:Bind tbConsole.Text, Mode=TwoWay}" VerticalAlignment="Top" Width="624" RenderTransformOrigin="0.496,0.583" AcceptsReturn="True" TextWrapping="Wrap" PlaceholderText="&lt;Console&gt;" FontSize="20"/>-->
-        <ListBox x:Name="lstMessage" ItemsSource="{Binding Message,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="889,224,51,271" />
-        <TextBox x:Name="tbConsole" Height="1" Width="1" ></TextBox>
+        <Button x:Name="pbReadSingleData" Content="Read Single Data" HorizontalAlignment="Left" Margin="436,264,0,0" VerticalAlignment="Top" Height="61" Width="261" FontSize="32" FontFamily="Segoe UI" Click="PbReadSingleData_Click"/>
+        <TextBox x:Name="tbConsole" HorizontalAlignment="Left" Height="923" Margin="839,34,0,0" Text="" VerticalAlignment="Top" Width="624" RenderTransformOrigin="0.496,0.583" AcceptsReturn="True" TextWrapping="Wrap" PlaceholderText="&lt;Console&gt;" FontSize="20"/>
+        <!--<ListBox x:Name="lstMessage" ItemsSource="{x:Bind message,Mode=TwoWay}"  Margin="783,158,157,337" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />-->
+        <!--<TextBox x:Name="tbConsole" Height="1" Width="1" ></TextBox>-->
         <Button Click="Button_Click_2" Content="TEST">
 
         </Button>
         <Button x:Name="pbReadMultiData" Content="Read Multi-Data" HorizontalAlignment="Left" Margin="436,377,0,0" VerticalAlignment="Top" Height="70" Width="261" FontSize="32" Click="PbReadMultiData_Click"/>
         <ComboBox x:Name="cbNumData" HorizontalAlignment="Left" Margin="84,377,0,0" VerticalAlignment="Top" Height="70" Width="305" PlaceholderText="&lt;Select num of data&gt;" FontSize="26"/>
-        <Button Content="Write Single Data" HorizontalAlignment="Left" Margin="436,500,0,0" VerticalAlignment="Top" Width="261" Height="70" FontSize="30" Click="Button_Click_1"/>
+        <Button x:Name="pbWriteSingleData" Content="Write Single Data" HorizontalAlignment="Left" Margin="436,500,0,0" VerticalAlignment="Top" Width="261" Height="70" FontSize="30" Click="PbWriteSingleData_Click"/>
         <TextBox x:Name="tbWriteData" HorizontalAlignment="Left" Margin="84,500,0,0" Text="" VerticalAlignment="Top" Width="305" Height="70" PlaceholderText="&lt;Data to write&gt;" FontSize="32"/>
         <Button x:Name="pbStartRead" Content="Start Reading" HorizontalAlignment="Left" Margin="436,619,0,0" VerticalAlignment="Top" Width="261" Height="70" FontSize="36" Click="PbStartRead_Click"/>
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,6 +8,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Core;
 using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.ApplicationModel.Core;
+using System.Runtime.CompilerServices;
 
 // 空白頁項目範本已記錄在 https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x404
 
@@ -14,35 +18,24 @@ namespace UpBoardI2CTest
 {
     /// <summary>
     /// 可以在本身使用或巡覽至框架內的空白頁面。
-    /// </summary>                                  
+    /// </summary>                           
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         IReadOnlyList<I2cController> controllerList;
         I2cController controller;
         I2cConnectionSettings settings = new I2cConnectionSettings(0x00);
-        private string consoleText;
+        public string consoleText;
         string[] AXES_LABEL_ACC_GYRO = { "G_X", "G_Y", "G_Z", "A_X", "A_Y", "A_Z" };
 
+        public ObservableCollection<string> message = new ObservableCollection<string>();
+        public ObservableCollection<string> listSAD = new ObservableCollection<string>();
+
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-            }
-        }
 
-        private ObservableCollection<string> _Message;
-        public ObservableCollection<string>Message
+        protected void OnPropertyChanged([CallerMemberName] string callerName = null)
         {
-            get => _Message;
-            set
-            {
-                _Message = value;
-                NotifyPropertyChanged(nameof(Message));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(callerName));
         }
-
 
         public MainPage()
         {
@@ -50,71 +43,89 @@ namespace UpBoardI2CTest
 
             for (UInt16 i=1; i <= 12; i++)
                 cbNumData.Items.Add(i);
-            Message = new ObservableCollection<string>();
-            lstMessage.DataContext = this;
         }
-        /*
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
-        public string ConsoleText
-        {
-            get { return this.consoleText};
-            set
-            {
-                this.consoleText = value;
-                
-            }
-        }
-        //public void OnPropertyChanged()
-        */
 
         private void Test()
         {
             Task.Run(() => I2cdetect());
         }
 
-
-        private async void I2cdetect()
+        private async void I2cdetectAsync()
         {
-
-
             try
             {
                 controllerList = (await I2cController.GetControllersAsync(UpWinApis.UpI2cProvider.GetI2cProvider()));
                 controller = controllerList[0];
-                byte[] writebuf = { 0x00 };
-                byte[] readbuf = new byte[1];
+            }
+            catch
+            {
 
-                for (uint i = 0; i < 128; i += 16)
+            }
+
+            IAsyncAction asyncAction = Windows.System.Threading.ThreadPool.RunAsync(
+                (workItem) =>
                 {
-                    for (uint j = 0; j < 16; j++)
+                    try
                     {
-                        settings.SlaveAddress = (int)(i + j);
-                        //settings.SharingMode = I2cSharingMode.Shared;
-                        try
-                        {
-                            controller.GetDevice(settings).WriteRead(writebuf, readbuf);
-                            //cbSADList.Items.Add(Convert.ToString(i + j, 16));
-                            var _msg ="Success to detect: " + Convert.ToString(i + j, 16);
+                        
+                        byte[] writebuf = { 0x00 };
+                        byte[] readbuf = new byte[1];
+                        Queue queueSAD = new Queue();
+                        int slaveAddress;
 
-                            Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                            {
-                                Message.Add(_msg);
-                            });
-                            
-                        }
-                        catch
+                        for (uint i = 0; i < 128; i += 16)
                         {
-                            // continue
-                            //tbConsole.Text += "#";
+                            for (uint j = 0; j < 16; j++)
+                            {
+                                slaveAddress = (int)(i + j);
+                                settings.SlaveAddress = slaveAddress;
+                                //settings.SharingMode = I2cSharingMode.Shared;
+                                try
+                                {
+                                    controller.GetDevice(settings).WriteRead(writebuf, readbuf);
+                                    queueSAD.Enqueue(Convert.ToString(slaveAddress, 16));
+                                    var _msg = "Success to detect: " + Convert.ToString(slaveAddress, 16);
+
+                                    // update UI by using the UI thread
+                                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                                        CoreDispatcherPriority.High,
+                                        new DispatchedHandler(() =>
+                                        {
+                                            //message.Add(_msg);
+                                            tbConsole.Text += "\n" + _msg + "\n";
+                                            listSAD.Add(queueSAD.Dequeue().ToString());
+                                        }));
+                                    
+                                }
+                                catch (Exception e)
+                                {
+                                    // continue
+                                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                                        CoreDispatcherPriority.High,
+                                        new DispatchedHandler(() =>
+                                        {
+                                            //message.Add("--");
+                                            tbConsole.Text += "#";
+                                        }));
+                                }
+                            }
+
                         }
                     }
-
-                }
-            }
-            catch (Exception e)
-            {
-                // continue
-            }
+                    catch (Exception e)
+                    {
+                        // continue
+                        CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                                        CoreDispatcherPriority.High,
+                                        new DispatchedHandler(() =>
+                                        {
+                                            //message.Add("An exception occurred during running I2cdetectAsync(): " + e.ToString());
+                                            tbConsole.Text += "An exception occurred during running I2cdetectAsync(): " + e.ToString();
+                                        }));
+                        
+                    }
+                });
+            pbDetectAddress.IsEnabled = true;
         }
 
         private void I2cget(int Slave, byte[] writeBuf, out byte[] readBuf, UInt16 NumData=1)
@@ -197,11 +208,12 @@ namespace UpBoardI2CTest
 
         private void PbDetectAddress_Click(object sender, RoutedEventArgs e)
         {
-            I2cdetect();
+            pbDetectAddress.IsEnabled = false;
+            I2cdetectAsync();
             tbConsole.Text += "Start detecting devices, please wait...\n";
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void PbReadSingleData_Click(object sender, RoutedEventArgs e)
         {
             tbConsole.Text += "Start reading register, please wait...\n";
             byte[] writeBuf = { Convert.ToByte(tbRegRW.Text.ToString()) };
@@ -216,7 +228,7 @@ namespace UpBoardI2CTest
             I2cget(Convert.ToInt32(cbSADList.SelectedValue.ToString(), 16), writeBuf, out byte[] readBuf, Convert.ToUInt16(cbNumData.SelectedValue));
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void PbWriteSingleData_Click(object sender, RoutedEventArgs e)
         {
             tbConsole.Text += "Start writing data to register, please wait...\n";
             byte[] writeBuf = { Convert.ToByte(tbRegRW.Text.ToString()), Convert.ToByte(tbWriteData.Text.ToString())};
@@ -234,8 +246,9 @@ namespace UpBoardI2CTest
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            Test();
+            I2cdetectAsync();
         }
+
     }
 
     
