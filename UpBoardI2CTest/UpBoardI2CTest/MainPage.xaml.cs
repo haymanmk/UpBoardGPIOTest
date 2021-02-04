@@ -26,7 +26,7 @@ namespace UpBoardI2CTest
         I2cController controller;
         I2cConnectionSettings settings = new I2cConnectionSettings(0x00);
         public string consoleText;
-        string[] AXES_LABEL_ACC_GYRO = { "G_X", "G_Y", "G_Z", "A_X", "A_Y", "A_Z" };
+        string[] AXES_LABEL_ACC_GYRO_M = { "G_X", "G_Y", "G_Z", "A_X", "A_Y", "A_Z", "M_X", "M_Y", "M_Z" };
 
         public ObservableCollection<string> message = new ObservableCollection<string>();
         public ObservableCollection<string> listSAD = new ObservableCollection<string>();
@@ -212,8 +212,8 @@ namespace UpBoardI2CTest
             for (int i=0; i<3; i++)
             {
                 ReadingValue = BitConverter.ToInt16(readBuf, 2*i);
-                ActualValue = Convert2ActualValue(ReadingValue, AXES_LABEL_ACC_GYRO[0]);
-                queueData.Enqueue($"{AXES_LABEL_ACC_GYRO[3 + i]}: {Convert.ToString(ActualValue)}, ");
+                ActualValue = Convert2ActualValue(ReadingValue, AXES_LABEL_ACC_GYRO_M[3+i]);
+                queueData.Enqueue($"{AXES_LABEL_ACC_GYRO_M[3 + i]}: {Convert.ToString(ActualValue)}, ");
 
                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal,
@@ -238,10 +238,13 @@ namespace UpBoardI2CTest
             switch (SensorType[0])
             {
                 case 'G':
-                    ActualValue = (float)(8.75 * ReadingBinary);
+                    ActualValue = (float)(7.4770 * ReadingBinary); //mdps/LSB
                     break;
                 case 'A':
-                    ActualValue = (float)(0.061 * ReadingBinary);
+                    ActualValue = (float)(0.061 * ReadingBinary); //mg/LSB
+                    break;
+                case 'M':
+                    ActualValue = (float)(0.4883 * ReadingBinary); //mgauss/LSB
                     break;
                 default:
                     break;
@@ -267,7 +270,9 @@ namespace UpBoardI2CTest
             // Initialize magnetometer
             byte CTRL_REG1_M = Convert.ToByte(0x20);
             byte CTRL_REG1_M_DATA = 0b00010000; // 0b0001 0000
-            byte[] writeBuf = { CTRL_REG1_M, CTRL_REG1_M_DATA };
+            byte CTRL_REG3_M = 0x22;
+            byte CTRL_REG3_M_DATA = 0b00000000; // Continuous-conversion mode
+            byte[] writeBuf = { CTRL_REG3_M, CTRL_REG3_M_DATA };
 
             I2cset(Slave, writeBuf);
 
@@ -278,6 +283,57 @@ namespace UpBoardI2CTest
             writeBuf[1] = CTRL_REG2_M_DATA;
 
             I2cset(Slave, writeBuf);
+        }
+
+        private bool IsMDataAvailable(int Slave)
+        {
+            byte STATUS_REG_M = 0x27;
+            byte[] writeBuf = { STATUS_REG_M };
+
+            I2cget(Slave, writeBuf, out byte[] readBuf);
+
+            return ((readBuf[0] & 0b00001000) > 0);
+        }
+
+        private void ReadOneMagData(int Slave)
+        {
+            byte OUT_X_L_M = 0x27;
+            byte[] writeBuf = { OUT_X_L_M };
+            byte[] readBuf_temp = new byte[1];
+            byte[] readBuf_LSB_MSB = new byte[2];
+            Int16 ReadingValue;
+            float ActualValue;
+            Queue queueData = new Queue();
+
+            //I2cset(Slave, writeBuf);
+
+            while (!IsMDataAvailable(Slave))
+            {
+                // wait here until there is a new data loaded in buffer.
+            }
+
+            I2cget(Slave, writeBuf, out byte[] readBuf, 6);
+
+            for (int i = 0; i < 3; i++)
+            {
+                ReadingValue = BitConverter.ToInt16(readBuf, 2 * i);
+                ActualValue = Convert2ActualValue(ReadingValue, AXES_LABEL_ACC_GYRO_M[6+i]);
+                queueData.Enqueue($"{AXES_LABEL_ACC_GYRO_M[6 + i]}: {Convert.ToString(ActualValue)}, ");
+
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                new DispatchedHandler(() =>
+                {
+                    tbConsole.Text += queueData.Dequeue().ToString();
+                }));
+            }
+
+            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+            CoreDispatcherPriority.Normal,
+                new DispatchedHandler(() =>
+                {
+                    tbConsole.Text += "\n";
+                }));
         }
 
         private void EnableFIFOMode(int Slave)
@@ -368,6 +424,20 @@ namespace UpBoardI2CTest
             I2cdetectAsync();
         }
 
+        private void PbReadMSensor_Click(object sender, RoutedEventArgs e)
+        {
+            UInt16 TimesIteration = 50;
+            int Slave = 0x1E;
+
+            IAsyncAction asyncAction = ThreadPool.RunAsync(
+                (workItem) => {
+                    // Initialize acc and gyro sensors
+                    InitSensor_Mag(Slave);
+
+                    for (uint i = 0; i < TimesIteration; i++)
+                        ReadOneMagData(Slave);
+                });
+        }
     }
 
     

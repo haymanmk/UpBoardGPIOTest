@@ -24,6 +24,7 @@
         <Button x:Name="pbWriteSingleData" Content="Write Single Data" HorizontalAlignment="Left" Margin="436,500,0,0" VerticalAlignment="Top" Width="261" Height="70" FontSize="30" Click="PbWriteSingleData_Click"/>
         <TextBox x:Name="tbWriteData" HorizontalAlignment="Left" Margin="84,500,0,0" Text="" VerticalAlignment="Top" Width="305" Height="70" PlaceholderText="&lt;Data to write&gt;" FontSize="32"/>
         <Button x:Name="pbStartRead" Content="Start Reading" HorizontalAlignment="Left" Margin="436,619,0,0" VerticalAlignment="Top" Width="261" Height="70" FontSize="36" Click="PbStartRead_Click"/>
+        <Button x:Name="pbReadMSensor" Content="Read M-sensor" HorizontalAlignment="Left" Margin="436,743,0,0" VerticalAlignment="Top" Height="70" Width="261" FontSize="36" Click="PbReadMSensor_Click"/>
 
     </Grid>
 </Page>
