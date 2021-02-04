@@ -6,6 +6,7 @@ using System.ComponentModel;
 using Windows.Devices.I2c;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Core;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -228,6 +229,7 @@ namespace UpBoardI2CTest
                 new DispatchedHandler(() =>
                 {
                     tbConsole.Text += "\n";
+                    ScrollToBottom(tbConsole);
                 }));
         }
 
@@ -333,6 +335,7 @@ namespace UpBoardI2CTest
                 new DispatchedHandler(() =>
                 {
                     tbConsole.Text += "\n";
+                    ScrollToBottom(tbConsole);
                 }));
         }
 
@@ -367,6 +370,18 @@ namespace UpBoardI2CTest
             byte[] FIFO_SRC = { 0x2F };
             I2cget(Slave, FIFO_SRC, out byte[] readBuf);
             return ((readBuf[0] & 0b00111111) == 0);
+        }
+
+        private void ScrollToBottom(TextBox textBox)
+        {
+            var grid = (Grid)VisualTreeHelper.GetChild(textBox, 0);
+            for (var i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
+            {
+                object obj = VisualTreeHelper.GetChild(grid, i);
+                if (!(obj is ScrollViewer)) continue;
+                ((ScrollViewer)obj).ChangeView(0.0f, ((ScrollViewer)obj).ExtentHeight, 1.0f, true);
+                break;
+            }
         }
 
         private void PbDetectAddress_Click(object sender, RoutedEventArgs e)
