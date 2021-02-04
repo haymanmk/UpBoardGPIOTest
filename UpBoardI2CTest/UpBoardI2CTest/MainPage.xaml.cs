@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.ApplicationModel.Core;
 using System.Runtime.CompilerServices;
+using Windows.System.Threading;
 
 // 空白頁項目範本已記錄在 https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x404
 
@@ -45,11 +46,6 @@ namespace UpBoardI2CTest
                 cbNumData.Items.Add(i);
         }
 
-        private void Test()
-        {
-            Task.Run(() => I2cdetect());
-        }
-
         private async void I2cdetectAsync()
         {
             try
@@ -62,7 +58,7 @@ namespace UpBoardI2CTest
 
             }
 
-            IAsyncAction asyncAction = Windows.System.Threading.ThreadPool.RunAsync(
+            IAsyncAction asyncAction = ThreadPool.RunAsync(
                 (workItem) =>
                 {
                     try
@@ -136,11 +132,11 @@ namespace UpBoardI2CTest
             try
             {
                 controller.GetDevice(settings).WriteRead(writeBuf, readBuf);
-                tbConsole.Text += "Success to read data: 0x" + Convert.ToString(readBuf[0], 16) + "\n";
+                //tbConsole.Text += "Success to read data: 0x" + Convert.ToString(readBuf[0], 16) + "\n";
             }
             catch (Exception e)
             {
-                tbConsole.Text += "error to get data\n";
+                //tbConsole.Text += "error to get data\n";
                 return;
             }
             /*
@@ -152,7 +148,7 @@ namespace UpBoardI2CTest
             */
         }
 
-        private void I2cset(int Slave, byte[] writeBuf)
+        private async void I2cset(int Slave, byte[] writeBuf)
         {
             //I2cController controller = await I2cController.GetDefaultAsync();
             //I2cConnectionSettings settings = new I2cConnectionSettings(Slave);
@@ -162,48 +158,159 @@ namespace UpBoardI2CTest
             try
             {
                 //controller.GetDevice(settings).Write(writeBuf);
-                tbConsole.Text += "Success to write " + writeBuf[1] + " at " + writeBuf[0] + "\n";
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                    CoreDispatcherPriority.Normal,
+                    new DispatchedHandler(() =>
+                    {
+                        tbConsole.Text += "Success to write " + writeBuf[1] + " at " + writeBuf[0] + "\n";
+                    }));
+                
             }
             catch (Exception e)
             {
                 //Console.WriteLine("error to set data\n");
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                    CoreDispatcherPriority.Normal,
+                    new DispatchedHandler(() =>
+                    {
+                        tbConsole.Text += "Error to write data\n";
+                        tbConsole.Text += e.ToString();
+                    }));
                 tbConsole.Text += "Error to write data\n";
                 return;
             }
             
         }
 
-        private void ReadOneAccGyroData()
+        private void ReadOneAccGyroData(int Slave)
         {
-            int Slave = 0x6B;
-            byte CTRL_REG1_G = Convert.ToByte(0x10);
-            byte CTRL_REG1_G_DATA = 0x20; // b0010 0000
-            byte[] writeBuf = { CTRL_REG1_G, CTRL_REG1_G_DATA };
+            //int Slave = 0x6B;
+            //byte CTRL_REG1_G = Convert.ToByte(0x10);
+            //byte CTRL_REG1_G_DATA = 0x20; // b0010 0000
+            //byte[] writeBuf = { CTRL_REG1_G, CTRL_REG1_G_DATA };
             byte[] OUT_X_G = { 0x18 };
+            byte[] OUT_X_XL = { 0x28 };
+            byte[] writeBuf = OUT_X_XL;
             byte[] readBuf_temp = new byte[1];
             byte[] readBuf_LSB_MSB = new byte[2];
             Int16 ReadingValue;
+            float ActualValue;
+            Queue queueData = new Queue();
+
+            //I2cset(Slave, writeBuf);
+
+            while (IsFIFOEmpty(Slave))
+            {
+                // wait here until there is data loaded in FIFO.
+            }
+
+            I2cget(Slave, writeBuf, out byte[] readBuf, 6);
+            //readBuf_LSB_MSB[0] = readBuf[0];
+            //controller.GetDevice(settings).Read(readBuf_temp);
+            //readBuf_LSB_MSB[1] = readBuf_temp[0];
+
+            for (int i=0; i<3; i++)
+            {
+                ReadingValue = BitConverter.ToInt16(readBuf, 2*i);
+                ActualValue = Convert2ActualValue(ReadingValue, AXES_LABEL_ACC_GYRO[0]);
+                queueData.Enqueue($"{AXES_LABEL_ACC_GYRO[3 + i]}: {Convert.ToString(ActualValue)}, ");
+
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+                CoreDispatcherPriority.Normal,
+                new DispatchedHandler(() =>
+                {
+                    tbConsole.Text += queueData.Dequeue().ToString();
+                }));
+            }
+
+            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+            CoreDispatcherPriority.Normal,
+                new DispatchedHandler(() =>
+                {
+                    tbConsole.Text += "\n";
+                }));
+        }
+
+        private float Convert2ActualValue(Int16 ReadingBinary, string SensorType)
+        {
+            float ActualValue = 0;
+
+            switch (SensorType[0])
+            {
+                case 'G':
+                    ActualValue = (float)(8.75 * ReadingBinary);
+                    break;
+                case 'A':
+                    ActualValue = (float)(0.061 * ReadingBinary);
+                    break;
+                default:
+                    break;
+            }
+            return ActualValue;
+        }
+
+        private void InitSensor_Acc_Gyro(int Slave)
+        {
+            // Power on Acc and Gyro
+            //int Slave = 0x6B;
+            //byte CTRL_REG1_G = Convert.ToByte(0x10);
+            //byte CTRL_REG1_G_DATA = 0b00100000; // b0010 0000
+            byte CTRL_REG6_XL = 0x20;
+            byte CTRL_REG6_XL_DATA = 0b00100000;
+            byte[] writeBuf = { CTRL_REG6_XL, CTRL_REG6_XL_DATA };
+
+            I2cset(Slave, writeBuf);
+        }
+
+        private void InitSensor_Mag(int Slave)
+        {
+            // Initialize magnetometer
+            byte CTRL_REG1_M = Convert.ToByte(0x20);
+            byte CTRL_REG1_M_DATA = 0b00010000; // 0b0001 0000
+            byte[] writeBuf = { CTRL_REG1_M, CTRL_REG1_M_DATA };
 
             I2cset(Slave, writeBuf);
 
-            I2cget(Slave, OUT_X_G, out byte[] readBuf);
-            readBuf_LSB_MSB[0] = readBuf[0];
-            controller.GetDevice(settings).Read(readBuf_temp);
-            readBuf_LSB_MSB[1] = readBuf_temp[0];
-            
-            ReadingValue = BitConverter.ToInt16(readBuf_LSB_MSB, 0);
+            // Select full-scale
+            byte CTRL_REG2_M = Convert.ToByte(0x21);
+            byte CTRL_REG2_M_DATA = 0b11000000; // CTRL_REG2_M[7:6]: 00-4gauss, 01-8gauss, 10-12gauss, 11-16gauss
+            writeBuf[0] = CTRL_REG2_M;
+            writeBuf[1] = CTRL_REG2_M_DATA;
 
-            tbConsole.Text += "G_X: " + Convert.ToString(ReadingValue, 10) + "\n";
+            I2cset(Slave, writeBuf);
+        }
 
-            for (uint i = 1; i < 6; i++)
-            {
-                controller.GetDevice(settings).Read(readBuf_temp);
-                readBuf_LSB_MSB[0] = readBuf_temp[0]; // LSB
-                controller.GetDevice(settings).Read(readBuf_temp);
-                readBuf_LSB_MSB[1] = readBuf_temp[0]; // MSB
-                ReadingValue = BitConverter.ToInt16(readBuf_LSB_MSB, 0);
-                tbConsole.Text += AXES_LABEL_ACC_GYRO[i] + ": " + Convert.ToString(ReadingValue, 10) + "\n";
-            }
+        private void EnableFIFOMode(int Slave)
+        {
+            byte CTRL_REG9 = 0x23;
+            byte CTRL_REG9_DATA = 0b00000010;
+            byte[] writeBuf = { CTRL_REG9, CTRL_REG9_DATA };
+            I2cset(Slave, writeBuf);
+
+        }
+
+        private void RestFIFOMode(int Slave)
+        {
+            byte FIFO_CTRL = Convert.ToByte(0x2E);
+            byte FIFO_CTRL_DATA = Convert.ToByte(0b00000000); //Bypass mode.
+            byte[] writeBuf = { FIFO_CTRL, FIFO_CTRL_DATA };
+            I2cset(Slave, writeBuf);
+
+        }
+        private void OnFIFOMode(int Slave)
+        {
+            byte FIFO_CTRL = Convert.ToByte(0x2E);
+            byte FIFO_CTRL_DATA = Convert.ToByte(0b11000000); //Continuous mode.
+            byte[] writeBuf = { FIFO_CTRL, FIFO_CTRL_DATA };
+            I2cset(Slave, writeBuf);
+
+        }
+
+        private bool IsFIFOEmpty(int Slave)
+        {
+            byte[] FIFO_SRC = { 0x2F };
+            I2cget(Slave, FIFO_SRC, out byte[] readBuf);
+            return ((readBuf[0] & 0b00111111) == 0);
         }
 
         private void PbDetectAddress_Click(object sender, RoutedEventArgs e)
@@ -238,10 +345,22 @@ namespace UpBoardI2CTest
         private void PbStartRead_Click(object sender, RoutedEventArgs e)
         {
             UInt16 TimesIteration = 50;
+            int Slave = 0x6B;
 
-            for (uint i = 0; i < TimesIteration; i++)
-                ReadOneAccGyroData();
+            IAsyncAction asyncAction = ThreadPool.RunAsync(
+                (workItem) => {
+                    // Initialize acc and gyro sensors
+                    InitSensor_Acc_Gyro(Slave);
 
+                    EnableFIFOMode(Slave);
+
+                    RestFIFOMode(Slave);
+
+                    OnFIFOMode(Slave);
+
+                    for (uint i = 0; i < TimesIteration; i++)
+                        ReadOneAccGyroData(Slave);
+                });
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
