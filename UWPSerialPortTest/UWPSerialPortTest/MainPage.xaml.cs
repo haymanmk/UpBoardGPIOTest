@@ -32,6 +32,10 @@ namespace UWPSerialPortTest
     {
         public ObservableCollection<SerialDevice> collectionSerialDevice = new ObservableCollection<SerialDevice>();
 
+        private TypedEventHandler<SerialDevice, PinChangedEventArgs> DataReceivedHandler;
+
+        SerialDevice serialDevice;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -105,7 +109,7 @@ namespace UWPSerialPortTest
         {
             if (collectionSerialDevice.Count <= 0) return null;
 
-            SerialDevice serialDevice;
+            //SerialDevice serialDevice;
             for (int i=0; i<collectionSerialDevice.Count; i++)
             {
                 serialDevice = collectionSerialDevice[i];
@@ -116,13 +120,15 @@ namespace UWPSerialPortTest
                     serialDevice.DataBits = (ushort)cbDataBits.SelectedValue;
                     serialDevice.Parity = (SerialParity)cbParity.SelectedItem;
                     serialDevice.StopBits = (SerialStopBitCount)cbStopBits.SelectedItem;
+                    //DataReceivedHandler = new TypedEventHandler<SerialDevice, PinChangedEventArgs>(this.PinChangedCallback);
+                    serialDevice.PinChanged += PinChangedCallback;
 
                     // say Hi
                     DataWriter dw = new DataWriter(serialDevice.OutputStream);
                     dw.WriteString("Hi");
                     //dw.WriteBytes(Encoding.ASCII.GetBytes("Hi"));
                     await dw.StoreAsync();
-                    dw.DetachStream();
+                    dw.DetachStream(); // release the resource of DataWriter stream to avoid the occupation espicially when there are more than one funcitons which queue in to use this stream.
                     dw = null;
 
                     return serialDevice;
@@ -155,17 +161,62 @@ namespace UWPSerialPortTest
             }
         }
 
+        private void PinChangedCallback(object sender, PinChangedEventArgs e)
+        {
+            switch (e.PinChange)
+            {
+                case SerialPinChange.DataSetReady:
+                    ReadData();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private async void ReadData()
+        {
+            using (var dataReader = new DataReader(serialDevice.InputStream))
+            {
+                dataReader.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
+                dataReader.ByteOrder = Windows.Storage.Streams.ByteOrder.LittleEndian;
+
+                //uint dataReady = await BytesToRead(dataReader);
+                await dataReader.LoadAsync(dataReader.UnconsumedBufferLength);
+
+                var receivedStrings = "";
+
+                do
+                {
+                    receivedStrings += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                } while (dataReader.UnconsumedBufferLength > 0);
+
+                AppendText(receivedStrings);
+            }
+
+        }
+
+        private uint BytesToRead(DataReader dataReader)
+        {
+            while(dataReader.UnconsumedBufferLength == 0)
+            {
+                //wait here
+            }
+            return dataReader.UnconsumedBufferLength;
+        }
+
         private async void PbDetectCOM_Click(object sender, RoutedEventArgs e)
         {
             tbConsole.Text += "Start finding COM port...\n";
             await FindSerialDevices();
         }
 
-        private void PbSetupCOM_Click(object sender, RoutedEventArgs e)
+        private async void PbSetupCOM_Click(object sender, RoutedEventArgs e)
         {
             tbConsole.Text += "Setting up serial port...";
             ScrollToBottom(tbConsole);
-            SetupSerialDevice();
+            await SetupSerialDevice();
+            //DataReceivedHandler = new TypedEventHandler<SerialDevice, PinChangedEventArgs>(PinChangedCallback);
+            //serialDevice.PinChanged += PinChangedCallback;// DataReceivedHandler;
         }
     }
 }
