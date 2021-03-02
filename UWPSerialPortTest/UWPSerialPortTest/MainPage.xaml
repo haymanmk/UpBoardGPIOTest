@@ -11,7 +11,7 @@
     <Grid>
         <ComboBox x:Name="cbListCOM" HorizontalAlignment="Left" Margin="55,57,0,0" VerticalAlignment="Top" Height="70" Width="200" PlaceholderText="&lt;COM&gt;" FontSize="28"/>
         <Button x:Name="pbDetectCOM" Content="Find COM" HorizontalAlignment="Left" Margin="289,57,0,0" VerticalAlignment="Top" Width="200" Height="70" FontSize="36" Click="PbDetectCOM_Click"/>
-        <TextBox x:Name="tbConsole" HorizontalAlignment="Left" Margin="875,57,0,0" Text="" VerticalAlignment="Top" Width="500" Height="800" PlaceholderText="&lt;Console&gt;" AcceptsReturn="True" TextWrapping="Wrap"/>
+        <TextBox x:Name="tbConsole" HorizontalAlignment="Left" Margin="550,40,0,0" Text="" VerticalAlignment="Top" Width="400" Height="600" PlaceholderText="&lt;Console&gt;" AcceptsReturn="True" TextWrapping="Wrap"/>
         <ComboBox x:Name="cbBaudRate" HorizontalAlignment="Left" Margin="55,169,0,0" VerticalAlignment="Top" Width="200" Height="70" FontSize="28" PlaceholderText="&lt;Baud Rate&gt;"/>
         <ComboBox x:Name="cbParity" HorizontalAlignment="Left" Margin="55,408,0,0" VerticalAlignment="Top" Width="200" Height="70" PlaceholderText="&lt;Parity&gt;" FontSize="28"/>
         <ComboBox x:Name="cbStopBits" HorizontalAlignment="Left" Margin="55,523,0,0" VerticalAlignment="Top" Width="200" Height="70" PlaceholderText="&lt;Stop Bits&gt;" FontSize="28"/>

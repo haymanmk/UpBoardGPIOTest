@@ -19,7 +19,9 @@ using Windows.Storage.Streams;
 using Windows.ApplicationModel.Core; // Dispatcher
 using Windows.UI.Core;
 using System.Threading.Tasks; //Task
+using System.Threading;
 using System.Text;
+using Windows.System.Threading;
 
 // 空白頁項目範本已記錄在 https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x404
 
@@ -35,6 +37,10 @@ namespace UWPSerialPortTest
         private TypedEventHandler<SerialDevice, PinChangedEventArgs> DataReceivedHandler;
 
         SerialDevice serialDevice;
+
+        private CancellationTokenSource dataReadCancellationTokenSource;
+
+        DataReader dataReader;
 
         public MainPage()
         {
@@ -105,9 +111,11 @@ namespace UWPSerialPortTest
             }
         }
 
-        private async Task<SerialDevice> SetupSerialDevice()
+        private async void SetupSerialDevice()
         {
-            if (collectionSerialDevice.Count <= 0) return null;
+            if (collectionSerialDevice.Count <= 0) return;
+
+            dataReadCancellationTokenSource = new CancellationTokenSource();
 
             //SerialDevice serialDevice;
             for (int i=0; i<collectionSerialDevice.Count; i++)
@@ -115,13 +123,14 @@ namespace UWPSerialPortTest
                 serialDevice = collectionSerialDevice[i];
                 if (serialDevice.PortName.ToString() == cbListCOM.SelectedValue.ToString())
                 {
-                    
+
+                    serialDevice.ReadTimeout = TimeSpan.FromMilliseconds(100);
                     serialDevice.BaudRate = (uint)cbBaudRate.SelectedValue;
                     serialDevice.DataBits = (ushort)cbDataBits.SelectedValue;
                     serialDevice.Parity = (SerialParity)cbParity.SelectedItem;
                     serialDevice.StopBits = (SerialStopBitCount)cbStopBits.SelectedItem;
                     //DataReceivedHandler = new TypedEventHandler<SerialDevice, PinChangedEventArgs>(this.PinChangedCallback);
-                    serialDevice.PinChanged += PinChangedCallback;
+                    //serialDevice.PinChanged += PinChangedCallback;
 
                     // say Hi
                     DataWriter dw = new DataWriter(serialDevice.OutputStream);
@@ -131,15 +140,17 @@ namespace UWPSerialPortTest
                     dw.DetachStream(); // release the resource of DataWriter stream to avoid the occupation espicially when there are more than one funcitons which queue in to use this stream.
                     dw = null;
 
-                    return serialDevice;
+                    listen();
+
+                    return;
                 }
             }
-            return null;
+            return;
         }
 
-        private void AppendText(string Msg)
+        private async Task AppendText(string Msg)
         {
-            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
                 CoreDispatcherPriority.Normal,
                 new DispatchedHandler(() =>
                 {
@@ -166,42 +177,109 @@ namespace UWPSerialPortTest
             switch (e.PinChange)
             {
                 case SerialPinChange.DataSetReady:
-                    ReadData();
+                    //ReadData();
                     break;
                 default:
                     break;
             }
         }
 
-        private async void ReadData()
+        private async void listen()
         {
-            using (var dataReader = new DataReader(serialDevice.InputStream))
+            dataReader = new DataReader(serialDevice.InputStream);
+
+            while (true)
             {
-                dataReader.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
-                dataReader.ByteOrder = Windows.Storage.Streams.ByteOrder.LittleEndian;
-
-                //uint dataReady = await BytesToRead(dataReader);
-                await dataReader.LoadAsync(dataReader.UnconsumedBufferLength);
-
-                var receivedStrings = "";
-
-                do
-                {
-                    receivedStrings += dataReader.ReadString(dataReader.UnconsumedBufferLength);
-                } while (dataReader.UnconsumedBufferLength > 0);
-
-                AppendText(receivedStrings);
+                await ReadData(dataReadCancellationTokenSource.Token);
             }
 
         }
 
-        private uint BytesToRead(DataReader dataReader)
+        private async Task ReadData(CancellationToken cancellationToken)
         {
-            while(dataReader.UnconsumedBufferLength == 0)
+            uint sizeToReadEachTime = 64;
+            uint inBufferCnt = 0;
+            string receivedStrings = "";
+
+            cancellationToken.ThrowIfCancellationRequested();
+            dataReader.InputStreamOptions = InputStreamOptions.Partial;
+            dataReader.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
+            dataReader.ByteOrder = Windows.Storage.Streams.ByteOrder.LittleEndian;
+            inBufferCnt = await dataReader.LoadAsync(sizeToReadEachTime).AsTask(cancellationToken);
+
+            receivedStrings = dataReader.ReadString(inBufferCnt);
+            await AppendText(receivedStrings);
+            
+            /*
+            using (var dataReader = new DataReader(serialDevice.InputStream))
             {
-                //wait here
-            }
-            return dataReader.UnconsumedBufferLength;
+                cancellationToken.ThrowIfCancellationRequested();
+
+                dataReader.InputStreamOptions = InputStreamOptions.Partial;
+                dataReader.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
+                dataReader.ByteOrder = Windows.Storage.Streams.ByteOrder.LittleEndian;
+
+                //uint dataReady = await BytesToRead(dataReader);
+                
+
+                var receivedStrings = "";
+
+                while (true)
+                {
+                    inBufferCnt = await dataReader.LoadAsync(sizeToReadEachTime).AsTask(cancellationToken);
+                    receivedStrings += dataReader.ReadString(inBufferCnt);
+                    await AppendText(receivedStrings);
+                    receivedStrings = "";
+                }
+
+                /*
+                do
+                {
+                    receivedStrings += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                } while (dataReader.UnconsumedBufferLength > 0);
+                
+                
+            }*/
+
+        }
+
+        private void MainLoop()
+        {
+            // Start running a main loop
+            IAsyncAction asyncAction = ThreadPool.RunAsync(
+                async (workItem) =>
+                {
+                    using (var dataReader = new DataReader(serialDevice.InputStream))
+                    {
+                        dataReader.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
+                        var receivedStrings = "";
+                        uint dataLength;
+
+                        while (true)
+                        {
+                            // do other things here
+
+
+                            //check if data has been loaded in the buffer for serial port input stream
+                            do
+                            {
+                                await dataReader.LoadAsync(1);
+                                dataLength = dataReader.UnconsumedBufferLength;
+                                if (dataReader.UnconsumedBufferLength > 0)
+                                {
+                                    receivedStrings += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                                }
+                                if (receivedStrings.EndsWith("\r\n")) break;
+
+                            } while (dataLength > 0);
+                            
+                            await AppendText(receivedStrings);
+                            receivedStrings = "";
+                        }
+                    }
+                        
+                });
+
         }
 
         private async void PbDetectCOM_Click(object sender, RoutedEventArgs e)
@@ -210,11 +288,11 @@ namespace UWPSerialPortTest
             await FindSerialDevices();
         }
 
-        private async void PbSetupCOM_Click(object sender, RoutedEventArgs e)
+        private void PbSetupCOM_Click(object sender, RoutedEventArgs e)
         {
             tbConsole.Text += "Setting up serial port...";
             ScrollToBottom(tbConsole);
-            await SetupSerialDevice();
+            SetupSerialDevice();
             //DataReceivedHandler = new TypedEventHandler<SerialDevice, PinChangedEventArgs>(PinChangedCallback);
             //serialDevice.PinChanged += PinChangedCallback;// DataReceivedHandler;
         }
