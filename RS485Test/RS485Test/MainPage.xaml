@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="RS485Test.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:RS485Test"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.Resources>
+        <Style x:Name="BasicButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+
+        <Style x:Name="BasicTextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+
+        <Style x:Name="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,5"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        
+        <Rectangle Fill="Gray" Grid.Row="0"/>
+        <TextBlock Text="RS485 Test" Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="10,0,0,0" FontWeight="Bold" Grid.Row="0" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="tbConsole" PlaceholderText="Console" FontSize="12" Margin="10,10,5,5" AcceptsReturn="True" TextWrapping="Wrap" Grid.Column="0"/>
+            <StackPanel Grid.Column="1" Margin="5,10,10,10">
+                <TextBlock Text="COM" Style="{StaticResource BasicTextBlockStyle}"/>
+                <ComboBox x:Name="cbCOM" Style="{StaticResource ComboBoxStyle}"/>
+                <TextBlock Text="Baud Rate" Style="{StaticResource BasicTextBlockStyle}"/>
+                <ComboBox x:Name="cbBaudRate" Style="{StaticResource ComboBoxStyle}"/>
+                <TextBlock Text="Data Bits" Style="{StaticResource BasicTextBlockStyle}"/>
+                <ComboBox x:Name="cbDataBits" Style="{StaticResource ComboBoxStyle}"/>
+                <TextBlock Text="Parity" Style="{StaticResource BasicTextBlockStyle}"/>
+                <ComboBox x:Name="cbParity" Style="{StaticResource ComboBoxStyle}"/>
+                <TextBlock Text="Stop Bits" Style="{StaticResource BasicTextBlockStyle}"/>
+                <ComboBox x:Name="cbStopBits" Style="{StaticResource ComboBoxStyle}"/>
+                <Button x:Name="btFindCOM" Content="Find COM" Style="{StaticResource BasicButtonStyle}" Click="BtFindCOM_Click"/>
+                <Button x:Name="btSetCOM" Content="Set COM" Style="{StaticResource BasicButtonStyle}" Click="BtSetCOM_Click"/>
+                <Button x:Name="btStopCOM" Content="Stop" Style="{StaticResource BasicButtonStyle}" Click="BtStopCOM_Click" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="tbCommand" PlaceholderText="Command" FontSize="12" Margin="10,5,5,10" AcceptsReturn="False" TextWrapping="NoWrap" Grid.Column="0"/>
+            <ComboBox x:Name="cbCommandShortcut" Style="{StaticResource ComboBoxStyle}" Grid.Column="1" Margin="5,0,10,0" SelectionChanged="CbCommandShortcut_SelectionChanged"/>
+            <Button x:Name="btSend" Content="Send" Style="{StaticResource BasicButtonStyle}" Grid.Column="2" Click="BtSend_Click"/>
+        </Grid>
+    </Grid>
+</Page>
